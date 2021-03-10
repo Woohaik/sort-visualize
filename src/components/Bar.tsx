@@ -1,15 +1,17 @@
 import React from 'react'
 
 interface Props {
-    height: number;
-    width: number;
-    color: string;
     left: number;
+    size: {
+        height: number;
+        width: number;
+    }
+    color: string;
 }
 
 const Bar = (props: Props) => {
     return (
-        <div className="bar">
+        <div className="bar" style={{ background: props.color, left: props.left, width: props.size.width, height: props.size.height }}>
         </div>
     )
 }

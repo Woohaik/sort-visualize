@@ -21,3 +21,10 @@
 input {
     margin-top: 25px;
 }
+
+.gg {
+    height: 100%;
+    width: 100%;
+
+    position: absolute;
+}

@@ -4,6 +4,8 @@ import Bar from "./components/Bar"
 
 const CANVAS_SIZE = 800;
 const barWidth = 40;
+const MAX_BAR_QUANTITY = 15;
+const MIN_BAR_QUANTITY = 2;
 
 function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min);
@@ -15,10 +17,8 @@ function getRandomInt(min: number, max: number): number {
 
 const App = () => {
 
-  const arrayBar: number[] = []
-  const [barNumber, setBarNumbers] = useState(arrayBar.length);
-
-  const [bars, setBars] = useState(arrayBar);
+  const arrayBar: number[] = [getRandomInt(20, 300), getRandomInt(20, 300)]
+  const [bars, setBars] = useState<number[]>(arrayBar);
 
   const salt = () => {
     setBars(bars.map(() => getRandomInt(20, 300)))
@@ -26,21 +26,21 @@ const App = () => {
 
 
   const addHandler = () => {
-    if (barNumber < 15) {
-      setBarNumbers(barNumber + 1)
+    if (bars.length < MAX_BAR_QUANTITY) {
+
       bars.push(getRandomInt(20, 300));
       setBars(bars)
     }
   }
   const dropHandler = () => {
-    if (barNumber > 1) {
-      setBarNumbers(barNumber - 1)
+    if (bars.length > MIN_BAR_QUANTITY) {
+
       bars.pop();
       setBars(bars)
     }
   }
 
-  const widthOfContent = (barNumber * barWidth) + (barNumber - 1) * 10
+  const widthOfContent = (bars.length * barWidth) + (bars.length - 1) * 10
 
   return (
     <div className="app">
@@ -58,7 +58,7 @@ const App = () => {
           }
         </div>
       </div>
-      <div>{barNumber}</div>
+      <div>{bars.length}</div>
 
       <div onClick={addHandler}>Add</div>
 

@@ -2,12 +2,10 @@ import React, { useState } from 'react'
 
 import Bar from "./components/Bar"
 
-
-
 const CANVAS_SIZE = 800;
 const barWidth = 40;
 
-function getRandomInt(min: number, max: number) {
+function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -17,8 +15,9 @@ function getRandomInt(min: number, max: number) {
 
 const App = () => {
 
-  const arrayBar = [150]
-  const [barNumber, setBarNumbers] = useState(1);
+  const arrayBar: number[] = []
+  const [barNumber, setBarNumbers] = useState(arrayBar.length);
+
   const [bars, setBars] = useState(arrayBar);
 
   const salt = () => {
@@ -41,28 +40,24 @@ const App = () => {
     }
   }
 
-  const withContent = (barNumber * barWidth) + (barNumber - 1) * 10
+  const widthOfContent = (barNumber * barWidth) + (barNumber - 1) * 10
 
   return (
     <div className="app">
       <div className="wrapper ">
-        <div className="gg" style={{ left: (CANVAS_SIZE - withContent) / 2, width: withContent }}>
+        <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent) / 2, width: widthOfContent }}>
           {
             bars.map((bar, index) => {
               const size = {
                 height: bar,
                 width: barWidth
               }
-
-              let Kik = (index * 50)
-
-              return <Bar key={index} left={Kik} size={size} color="red" />
+              const leftPosition: number = (index * 50);
+              return <Bar key={index} left={leftPosition} size={size} color="red" />
             })
           }
         </div>
-
       </div>
-
       <div>{barNumber}</div>
 
       <div onClick={addHandler}>Add</div>

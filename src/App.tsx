@@ -2,10 +2,7 @@ import React, { useState } from 'react'
 
 import Bar from "./components/Bar"
 
-const CANVAS_SIZE = 800;
-const barWidth = 40;
-const MAX_BAR_QUANTITY = 15;
-const MIN_BAR_QUANTITY = 2;
+
 
 function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min);
@@ -13,10 +10,11 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
-
 const App = () => {
-
+  const CANVAS_SIZE = 800;
+  const barWidth = 40;
+  const MAX_BAR_QUANTITY = 15;
+  const MIN_BAR_QUANTITY = 2;
   const arrayBar: number[] = [getRandomInt(20, 300), getRandomInt(20, 300)]
   const [bars, setBars] = useState<number[]>(arrayBar);
 
@@ -27,25 +25,23 @@ const App = () => {
 
   const addHandler = () => {
     if (bars.length < MAX_BAR_QUANTITY) {
-
       bars.push(getRandomInt(20, 300));
-      setBars(bars)
+      setBars([...bars])
     }
   }
   const dropHandler = () => {
     if (bars.length > MIN_BAR_QUANTITY) {
-
       bars.pop();
-      setBars(bars)
+      setBars([...bars])
     }
   }
 
-  const widthOfContent = (bars.length * barWidth) + (bars.length - 1) * 10
+  const widthOfContent = () => (bars.length * barWidth) + (bars.length - 1) * 10;
 
   return (
     <div className="app">
       <div className="wrapper ">
-        <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent) / 2, width: widthOfContent }}>
+        <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
           {
             bars.map((bar, index) => {
               const size = {
@@ -63,7 +59,6 @@ const App = () => {
       <div onClick={addHandler}>Add</div>
 
       <div onClick={dropHandler}>Drop</div>
-
       <button onClick={salt}>Salt</button>
 
     </div>

@@ -1,3 +1,6 @@
+body {
+    background-color: rgba(235, 235, 235, 0.781);
+}
 .app {
     width: 100%;
     max-width: 800px;
@@ -11,7 +14,6 @@
 
 .wrapper {
     position: relative;
-    background-color: rgba(139, 139, 139, 0.781);
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
@@ -26,4 +28,28 @@ input {
     height: 100%;
     width: 100%;
     position: absolute;
+}
+
+.changeValue {
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 35px;
+    background: rgb(204, 201, 201);
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid rgb(168, 168, 168);
+}
+
+.changeValue:hover {
+    background: rgb(180, 180, 180);
+    border: 2px solid rgb(150, 150, 150);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
 }

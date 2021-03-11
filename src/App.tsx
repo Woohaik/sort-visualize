@@ -49,17 +49,20 @@ const App = () => {
                 width: barWidth
               }
               const leftPosition: number = (index * 50);
-              return <Bar key={index} left={leftPosition} size={size} color="red" />
+              return <Bar key={index} left={leftPosition} size={size} color="#0056ad" />
             })
           }
         </div>
       </div>
-      <div>{bars.length}</div>
+      <div className="button-container">
+        <button className="changeValue" onClick={dropHandler}>Drop</button>
+        <button className="changeValue" onClick={salt}>Salt</button>
 
-      <div onClick={addHandler}>Add</div>
+        <button className="changeValue" onClick={addHandler}>Add</button>
+      </div>
 
-      <div onClick={dropHandler}>Drop</div>
-      <button onClick={salt}>Salt</button>
+
+
 
     </div>
   )

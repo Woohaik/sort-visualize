@@ -10,21 +10,25 @@ const App = () => {
   const MIN_BAR_QUANTITY = 4;
   const barArrar = [
     {
+      id: 0,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: "calc(50% - 10px)",
+      left: 200,
     },
     {
+      id: 1,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: "calc(50% - 10px)",
+      left: 200,
     },
     {
+      id: 2,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: "calc(50% - 10px)",
+      left: 200,
     },
     {
+      id: 3,
       color: "#0056ad",
       height: getRandomInt(20, 300),
       left: 0,
@@ -34,10 +38,15 @@ const App = () => {
   const [bars, setBars] = useState(barArrar);
   const calculatePos = () => {
     setBars(bars.map((barObject, index) => {
+      barObject.id = index;
       barObject.left = (index * 45);
       return barObject;
     }))
   }
+
+
+
+
 
   useEffect(() => {
     calculatePos();
@@ -48,6 +57,7 @@ const App = () => {
   const addHandler = () => {
     if (bars.length < MAX_BAR_QUANTITY) {
       bars.push({
+        id: bars.length,
         color: "#0056ad",
         height: getRandomInt(20, 300),
         left: 0
@@ -66,14 +76,71 @@ const App = () => {
 
   const widthOfContent = () => (bars.length * barWidth) + (bars.length - 1) * 10;
 
-  const startSort = () => {
-    const first = [...bars][0];
-    const last = [...bars][bars.length - 1];
-    let newArray = [...bars];
-    newArray[0] = last;
-    newArray[bars.length - 1] = first;
-    setBars(newArray);
+
+  const changePost = (id1: number, id2: number): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        let newArray = [...bars];
+        const firstLeft = newArray.find(bar => bar.id === id1)?.left;
+        const lastLeft = newArray.find(bar => bar.id === id2)?.left;
+        const l1 = newArray.find(bar => bar.id === id1);
+        const l2 = newArray.find(bar => bar.id === id2);
+        if (l1 !== undefined) l1.left = lastLeft || -1;
+        if (l2 !== undefined) l2.left = firstLeft || -1;
+
+        setBars(newArray);
+        resolve();
+      }, 500)
+    })
   }
+
+
+  const setGreen = async (id: number, id2: number): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        let newBars = bars.map((barObject) => {
+          barObject.color = "#0056ad";
+          return barObject;
+        })
+        let BarToGreen = newBars.find(bar => bar.id === id);
+        let BarToGreen2 = newBars.find(bar => bar.id === id2);
+
+        if (BarToGreen !== undefined) BarToGreen.color = "#7da542";
+        if (BarToGreen2 !== undefined) BarToGreen2.color = "#7da542";
+
+        setBars(newBars);
+        resolve();
+      }, 500)
+    });
+  }
+
+  const bubbleSort = async () => {
+    let newArray = [...bars];
+    let swapped = false;
+    do {
+      swapped = false;
+      for (let i = 0; i < newArray.length; i++) {
+        await setGreen(newArray[i].id, newArray[i + 1]?.id);    // Cambiar de color las que compara
+        if (newArray[i].height > newArray[i + 1]?.height) {
+          // A intercambiar
+          await changePost(newArray[i].id, newArray[i + 1].id);
+          let tmp = newArray[i];
+          newArray[i] = newArray[i + 1];
+          newArray[i + 1] = tmp;
+
+          swapped = true;
+        }
+
+      }
+    } while (swapped);
+    console.log(newArray);
+  };
+
+  const startSort = () => {
+    bubbleSort();
+
+  }
+
 
   return (
     <div className="app">
@@ -88,7 +155,7 @@ const App = () => {
                 width: barWidth
               }
 
-              return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color="#0056ad" />
+              return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />
             })
           }
         </div>

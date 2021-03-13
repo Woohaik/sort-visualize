@@ -7,11 +7,12 @@ interface Props {
         width: number;
     }
     color: string;
+    class: string;
 }
 
 const Bar = (props: Props) => {
     return (
-        <div className="bar" style={{ background: props.color, left: props.left, width: props.size.width, height: props.size.height }}>
+        <div className={`bar ${props.class} `} style={{ background: props.color, left: props.left, width: props.size.width, height: props.size.height }}>
         </div>
     )
 }

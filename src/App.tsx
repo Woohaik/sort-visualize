@@ -1,31 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import Bar from "./components/Bar"
+import Bar from "./components/Bar";
+import { getRandomInt } from './utils/getRandomInt';
 
 
-
-function getRandomInt(min: number, max: number): number {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 const App = () => {
   const CANVAS_SIZE = 800;
-  const barWidth = 40;
-  const MAX_BAR_QUANTITY = 15;
-  const MIN_BAR_QUANTITY = 2;
-  const arrayBar: number[] = [getRandomInt(20, 300), getRandomInt(20, 300)]
-  const [bars, setBars] = useState<number[]>(arrayBar);
+  const barWidth = 35;
+  const MAX_BAR_QUANTITY = 20;
+  const MIN_BAR_QUANTITY = 4;
+  const barArrar = [{
+    color: "#0056ad",
+    height: getRandomInt(20, 300)
+  },
+  {
+    color: "#0056ad",
+    height: getRandomInt(20, 300)
+  },
+  {
+    color: "#0056ad",
+    height: getRandomInt(20, 300)
+  },
+  {
+    color: "#0056ad",
+    height: getRandomInt(20, 300)
+  },
+  ];
 
-  const salt = () => {
-    setBars(bars.map(() => getRandomInt(20, 300)))
-  }
-
+  const [bars, setBars] = useState(barArrar);
+  const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })))
 
   const addHandler = () => {
     if (bars.length < MAX_BAR_QUANTITY) {
-      bars.push(getRandomInt(20, 300));
+      bars.push({
+        color: "#0056ad",
+        height: getRandomInt(20, 300)
+      });
       setBars([...bars])
     }
   }
@@ -43,13 +54,13 @@ const App = () => {
       <div className="wrapper ">
         <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
           {
-            bars.map((bar, index) => {
+            bars.map((barObject, index) => {
               const size = {
-                height: bar,
+                height: barObject.height,
                 width: barWidth
               }
-              const leftPosition: number = (index * 50);
-              return <Bar key={index} left={leftPosition} size={size} color="#0056ad" />
+              const leftPosition: number = (index * 45);
+              return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={leftPosition} size={size} color="#0056ad" />
             })
           }
         </div>

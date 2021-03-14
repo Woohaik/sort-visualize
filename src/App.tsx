@@ -13,25 +13,25 @@ const App = () => {
       id: 0,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: 200,
+      left: 100,
     },
     {
       id: 1,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: 200,
+      left: 100,
     },
     {
       id: 2,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: 200,
+      left: 100,
     },
     {
       id: 3,
       color: "#0056ad",
       height: getRandomInt(20, 300),
-      left: 0,
+      left: 100,
     },
   ];
 
@@ -44,10 +44,14 @@ const App = () => {
     }))
   }
 
-
-
-
-
+  const reset = () => {
+    let newBars = bars.map((barObject) => {
+      barObject.color = "#0056ad";
+      return barObject;
+    })
+    setBars(newBars);
+    calculatePos();
+  }
   useEffect(() => {
     calculatePos();
   }, []);
@@ -81,6 +85,8 @@ const App = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         let newArray = [...bars];
+        console.log(newArray);
+
         const firstLeft = newArray.find(bar => bar.id === id1)?.left;
         const lastLeft = newArray.find(bar => bar.id === id2)?.left;
         const l1 = newArray.find(bar => bar.id === id1);
@@ -97,6 +103,8 @@ const App = () => {
 
   const setGreen = async (id: number, id2: number): Promise<void> => {
     return new Promise((resolve) => {
+
+
       setTimeout(() => {
         let newBars = bars.map((barObject) => {
           barObject.color = "#0056ad";
@@ -114,41 +122,53 @@ const App = () => {
     });
   }
 
-  const bubbleSort = async () => {
+
+  interface step {
+    id1: number;
+    id2: number;
+  }
+
+  const bubbleSort = () => {
+    let stepArray = []
     let newArray = [...bars];
     let swapped = false;
     do {
       swapped = false;
       for (let i = 0; i < newArray.length; i++) {
-        await setGreen(newArray[i].id, newArray[i + 1]?.id);    // Cambiar de color las que compara
+        let firstStep: step = { id1: newArray[i].id, id2: newArray[i + 1]?.id };
+        let secondStep: step | null = { id1: newArray[i].id, id2: newArray[i + 1]?.id };
         if (newArray[i].height > newArray[i + 1]?.height) {
-          // A intercambiar
-          await changePost(newArray[i].id, newArray[i + 1].id);
           let tmp = newArray[i];
           newArray[i] = newArray[i + 1];
           newArray[i + 1] = tmp;
-
           swapped = true;
+        } else {
+          secondStep = null;
         }
-
+        stepArray.push({ first: firstStep, second: secondStep });
       }
     } while (swapped);
-    console.log(newArray);
+    return stepArray;
   };
 
-  const startSort = () => {
-    bubbleSort();
+  const startSort = async () => {
+    let steps = bubbleSort();
+
+    for (let index = 0; index < steps.length; index++) {
+      await setGreen(steps[index].first.id1, steps[index].first.id2); // LAs que compara
+
+      if (steps[index].second) await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
+    }
+
+
 
   }
-
 
   return (
     <div className="app">
       <div className="wrapper ">
         <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
-
           {
-
             bars.map((barObject, index) => {
               const size = {
                 height: barObject.height,
@@ -167,6 +187,7 @@ const App = () => {
       </div>
       <div className="button-container">
         <button className="changeValue" onClick={startSort}>Play</button>
+        <button className="changeValue" onClick={reset}>Reset</button>
       </div>
     </div>
   )

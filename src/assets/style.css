@@ -79,3 +79,16 @@ input {
 .drop {
     height: 1px !important;
 }
+
+.navbar {
+    display: flex;
+}
+.navbar__item {
+    height: 35px;
+    background: rgb(170, 170, 170);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+}

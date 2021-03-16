@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Bar from "./components/Bar";
+import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
 import { bubbleSort } from './utils/bubbleSort';
 import { getRandomInt } from './utils/getRandomInt';
 
-
 const App = () => {
-  const CANVAS_SIZE = 800;
-  const barWidth = 35;
-  const MAX_BAR_QUANTITY = 20;
-  const MIN_BAR_QUANTITY = 4;
   const barArrar = [
     {
       id: 0,
@@ -133,6 +129,17 @@ const App = () => {
 
   return (
     <div className="app">
+      <nav className="navbar">
+        <div className="navbar__item">
+          Bubble Sort
+        </div>
+        <div className="navbar__item">
+          Perejil Sort
+        </div>
+        <div className="navbar__item">
+          Mangeño Sort
+        </div>
+      </nav>
       <div className="wrapper ">
         <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
           {
@@ -141,7 +148,6 @@ const App = () => {
                 height: barObject.height,
                 width: barWidth
               }
-
               return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />
             })
           }

@@ -79,9 +79,7 @@ const App = () => {
     }
   }
 
-
   const widthOfContent = () => (bars.length * barWidth) + (bars.length - 1) * 10;
-
 
   const changePost = (id1: number, id2: number): Promise<void> => {
     return new Promise((resolve) => {
@@ -127,16 +125,19 @@ const App = () => {
     }
   }
 
+
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
+
   return (
     <div className="app">
       <nav className="navbar">
-        <div className="navbar__item">
+        <div onClick={() => setSelectedAlgorithm("bubble")} className={`navbar__item  ${selectedAlgorithm === "bubble" ? "selected" : ""}`}>
           Bubble Sort
         </div>
-        <div className="navbar__item">
+        <div onClick={() => setSelectedAlgorithm("perejil")} className={`navbar__item  ${selectedAlgorithm === "perejil" ? "selected" : ""}`}>
           Perejil Sort
         </div>
-        <div className="navbar__item">
+        <div onClick={() => setSelectedAlgorithm("mangeno")} className={`navbar__item  ${selectedAlgorithm === "mangeno" ? "selected" : ""}`}>
           Mangeño Sort
         </div>
       </nav>
@@ -153,6 +154,13 @@ const App = () => {
           }
         </div>
       </div>
+
+      <div className="loading-bar">
+        <div className="loading-bar-progress"></div>
+
+      </div>
+
+
       <div className="button-container">
         <button className="changeValue" onClick={dropHandler}>Drop</button>
         <button className="changeValue" onClick={salt}>Salt</button>

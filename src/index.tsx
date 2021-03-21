@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import '@fortawesome/fontawesome'
+import '@fortawesome/fontawesome-free-solid'
+import "./assets/style.scss";
 
-import "./assets/style.css"
+
+
 
 ReactDOM.render(
   <React.StrictMode>

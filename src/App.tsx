@@ -3,6 +3,7 @@ import Bar from "./components/Bar";
 import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
 import { bubbleSort } from './utils/bubbleSort';
 import { getRandomInt } from './utils/getRandomInt';
+import { selectionSort } from './utils/selectionSort';
 
 const App = () => {
   const barArrar = [
@@ -117,16 +118,42 @@ const App = () => {
     });
   }
 
+
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
+
+
+  const [loadingPorcentage, setLoadingPorcentage] = useState(0);
+
+
+
+
   const startSort = async () => {
-    let steps = bubbleSort(bars);
+
+    let steps = selectionSort(bars);
+
+    // let steps = bubbleSort(bars);
+
+    const totalSteps = steps.length;
+
+
+
+
+
+    let stepPassed = 0;
     for (let index = 0; index < steps.length; index++) {
+
       await setGreen(steps[index].first.id1, steps[index].first.id2); // LAs que compara
-      if (steps[index].second) await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
+
+      if (steps[index].second) {
+        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
+
+      }
+      stepPassed++
+      setLoadingPorcentage((stepPassed / totalSteps) * 100);
+
     }
   }
 
-
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
 
   return (
     <div className="app">
@@ -156,19 +183,17 @@ const App = () => {
       </div>
 
       <div className="loading-bar">
-        <div className="loading-bar-progress"></div>
-
-      </div>
-
-
-      <div className="button-container">
-        <button className="changeValue" onClick={dropHandler}>Drop</button>
-        <button className="changeValue" onClick={salt}>Salt</button>
-        <button className="changeValue" onClick={addHandler}>Add</button>
+        <div className="loading-bar-progress" style={{ width: `${loadingPorcentage}%` }}></div>
       </div>
       <div className="button-container">
-        <button className="changeValue" onClick={startSort}>Play</button>
-        <button className="changeValue" onClick={reset}>Reset</button>
+        <button className="btn btn-sm changeValue" onClick={dropHandler}><i className="fas fa-minus"></i></button>
+        <button className="btn btn-sm changeValue" onClick={startSort}>     <i className="fas fa-play"></i></button>
+        <button className="btn btn-sm changeValue" onClick={addHandler}><i className="fas fa-plus"></i></button>
+      </div>
+
+      <div className="button-container">
+        <button className=" btn changeValue" onClick={salt}>Salt</button>
+        <button className="btn changeValue" onClick={reset}>Reset</button>
       </div>
     </div>
   )

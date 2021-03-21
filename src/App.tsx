@@ -119,19 +119,33 @@ const App = () => {
   }
 
 
+
+
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
 
 
   const [loadingPorcentage, setLoadingPorcentage] = useState(0);
 
+  const doSort = () => {
+    if (selectedAlgorithm === "bubble") {
+      return bubbleSort(bars);
+    } else if (selectedAlgorithm === "selection") {
+      return selectionSort(bars);
+    } else {
+      return selectionSort(bars);
+    }
+
+  }
+
 
 
 
   const startSort = async () => {
+    // let steps = 
 
-    let steps = selectionSort(bars);
+    let steps = doSort();
 
-    // let steps = bubbleSort(bars);
+
 
     const totalSteps = steps.length;
 
@@ -161,8 +175,8 @@ const App = () => {
         <div onClick={() => setSelectedAlgorithm("bubble")} className={`navbar__item  ${selectedAlgorithm === "bubble" ? "selected" : ""}`}>
           Bubble Sort
         </div>
-        <div onClick={() => setSelectedAlgorithm("perejil")} className={`navbar__item  ${selectedAlgorithm === "perejil" ? "selected" : ""}`}>
-          Perejil Sort
+        <div onClick={() => setSelectedAlgorithm("selection")} className={`navbar__item  ${selectedAlgorithm === "selection" ? "selected" : ""}`}>
+          Selection Sort
         </div>
         <div onClick={() => setSelectedAlgorithm("mangeno")} className={`navbar__item  ${selectedAlgorithm === "mangeno" ? "selected" : ""}`}>
           Mangeño Sort

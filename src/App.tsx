@@ -3,6 +3,7 @@ import Bar from "./components/Bar";
 import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
 import { bubbleSort } from './utils/bubbleSort';
 import { getRandomInt } from './utils/getRandomInt';
+import { selectionSort } from './utils/selectionSort';
 
 const App = () => {
   const barArrar = [
@@ -117,16 +118,56 @@ const App = () => {
     });
   }
 
-  const startSort = async () => {
-    let steps = bubbleSort(bars);
-    for (let index = 0; index < steps.length; index++) {
-      await setGreen(steps[index].first.id1, steps[index].first.id2); // LAs que compara
-      if (steps[index].second) await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
-    }
-  }
+
 
 
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
+
+
+  const [loadingPorcentage, setLoadingPorcentage] = useState(0);
+
+  const doSort = () => {
+    if (selectedAlgorithm === "bubble") {
+      return bubbleSort(bars);
+    } else if (selectedAlgorithm === "selection") {
+      return selectionSort(bars);
+    } else {
+      return selectionSort(bars);
+    }
+
+  }
+
+
+
+
+  const startSort = async () => {
+    // let steps = 
+
+    let steps = doSort();
+
+
+
+    const totalSteps = steps.length;
+
+
+
+
+
+    let stepPassed = 0;
+    for (let index = 0; index < steps.length; index++) {
+
+      await setGreen(steps[index].first.id1, steps[index].first.id2); // LAs que compara
+
+      if (steps[index].second) {
+        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
+
+      }
+      stepPassed++
+      setLoadingPorcentage((stepPassed / totalSteps) * 100);
+
+    }
+  }
+
 
   return (
     <div className="app">
@@ -134,8 +175,8 @@ const App = () => {
         <div onClick={() => setSelectedAlgorithm("bubble")} className={`navbar__item  ${selectedAlgorithm === "bubble" ? "selected" : ""}`}>
           Bubble Sort
         </div>
-        <div onClick={() => setSelectedAlgorithm("perejil")} className={`navbar__item  ${selectedAlgorithm === "perejil" ? "selected" : ""}`}>
-          Perejil Sort
+        <div onClick={() => setSelectedAlgorithm("selection")} className={`navbar__item  ${selectedAlgorithm === "selection" ? "selected" : ""}`}>
+          Selection Sort
         </div>
         <div onClick={() => setSelectedAlgorithm("mangeno")} className={`navbar__item  ${selectedAlgorithm === "mangeno" ? "selected" : ""}`}>
           Mangeño Sort
@@ -156,19 +197,17 @@ const App = () => {
       </div>
 
       <div className="loading-bar">
-        <div className="loading-bar-progress"></div>
-
-      </div>
-
-
-      <div className="button-container">
-        <button className="changeValue" onClick={dropHandler}>Drop</button>
-        <button className="changeValue" onClick={salt}>Salt</button>
-        <button className="changeValue" onClick={addHandler}>Add</button>
+        <div className="loading-bar-progress" style={{ width: `${loadingPorcentage}%` }}></div>
       </div>
       <div className="button-container">
-        <button className="changeValue" onClick={startSort}>Play</button>
-        <button className="changeValue" onClick={reset}>Reset</button>
+        <button className="btn btn-sm changeValue" onClick={dropHandler}><i className="fas fa-minus"></i></button>
+        <button className="btn btn-sm changeValue" onClick={startSort}>     <i className="fas fa-play"></i></button>
+        <button className="btn btn-sm changeValue" onClick={addHandler}><i className="fas fa-plus"></i></button>
+      </div>
+
+      <div className="button-container">
+        <button className=" btn changeValue" onClick={salt}>Salt</button>
+        <button className="btn changeValue" onClick={reset}>Reset</button>
       </div>
     </div>
   )

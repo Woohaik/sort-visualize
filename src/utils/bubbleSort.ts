@@ -9,7 +9,8 @@ export const bubbleSort = (toSortArr: IBarMeta[]) => {
         for (let index = 0; index < newArray.length; index++) {
             let firstStep: IStep = { id1: newArray[index].id, id2: newArray[index + 1]?.id };
             let secondStep: IStep | null = { id1: newArray[index].id, id2: newArray[index + 1]?.id };
-            if (newArray[index].height > newArray[index + 1]?.height) {
+            if (newArray[index].height > newArray[index + 1]?.height) { // Comparacion
+                // Swapp
                 let tmp = newArray[index];
                 newArray[index] = newArray[index + 1];
                 newArray[index + 1] = tmp;

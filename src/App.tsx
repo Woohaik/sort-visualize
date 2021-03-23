@@ -3,6 +3,7 @@ import Bar from "./components/Bar";
 import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
 import { bubbleSort } from './utils/bubbleSort';
 import { getRandomInt } from './utils/getRandomInt';
+import { insertionSort } from './utils/insertionSort';
 import { selectionSort } from './utils/selectionSort';
 
 const App = () => {
@@ -69,7 +70,7 @@ const App = () => {
       setBars([...bars])
       calculatePos();
     }
-  }
+  };
 
 
   const dropHandler = () => {
@@ -78,7 +79,7 @@ const App = () => {
       setBars([...bars]);
       calculatePos();
     }
-  }
+  };
 
   const widthOfContent = () => (bars.length * barWidth) + (bars.length - 1) * 10;
 
@@ -99,7 +100,7 @@ const App = () => {
   }
 
 
-  const setGreen = async (id: number, id2: number): Promise<void> => {
+  const setGreen = async (id: number, id2: number, id3 = -1): Promise<void> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         let newBars = bars.map((barObject) => {
@@ -108,21 +109,17 @@ const App = () => {
         })
         let BarToGreen = newBars.find(bar => bar.id === id);
         let BarToGreen2 = newBars.find(bar => bar.id === id2);
-
+        let BarToGreen3 = newBars.find(bar => bar.id === id3);
         if (BarToGreen !== undefined) BarToGreen.color = "#7da542";
         if (BarToGreen2 !== undefined) BarToGreen2.color = "#7da542";
-
+        if (BarToGreen3 !== undefined) BarToGreen3.color = "#7da542";
         setBars(newBars);
         resolve();
       }, 500)
     });
   }
 
-
-
-
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
-
 
   const [loadingPorcentage, setLoadingPorcentage] = useState(0);
 
@@ -132,41 +129,23 @@ const App = () => {
     } else if (selectedAlgorithm === "selection") {
       return selectionSort(bars);
     } else {
-      return selectionSort(bars);
+      return insertionSort(bars);
     }
-
-  }
-
-
-
+  };
 
   const startSort = async () => {
-    // let steps = 
-
-    let steps = doSort();
-
-
-
+    const steps = doSort();
     const totalSteps = steps.length;
-
-
-
-
-
     let stepPassed = 0;
     for (let index = 0; index < steps.length; index++) {
-
       await setGreen(steps[index].first.id1, steps[index].first.id2); // LAs que compara
-
       if (steps[index].second) {
         await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
-
       }
-      stepPassed++
+      stepPassed++;
       setLoadingPorcentage((stepPassed / totalSteps) * 100);
-
     }
-  }
+  };
 
 
   return (
@@ -178,8 +157,8 @@ const App = () => {
         <div onClick={() => setSelectedAlgorithm("selection")} className={`navbar__item  ${selectedAlgorithm === "selection" ? "selected" : ""}`}>
           Selection Sort
         </div>
-        <div onClick={() => setSelectedAlgorithm("mangeno")} className={`navbar__item  ${selectedAlgorithm === "mangeno" ? "selected" : ""}`}>
-          Mangeño Sort
+        <div onClick={() => setSelectedAlgorithm("insertion")} className={`navbar__item  ${selectedAlgorithm === "insertion" ? "selected" : ""}`}>
+          Insertion Sort
         </div>
       </nav>
       <div className="wrapper ">
@@ -195,7 +174,6 @@ const App = () => {
           }
         </div>
       </div>
-
       <div className="loading-bar">
         <div className="loading-bar-progress" style={{ width: `${loadingPorcentage}%` }}></div>
       </div>
@@ -204,7 +182,6 @@ const App = () => {
         <button className="btn btn-sm changeValue" onClick={startSort}>     <i className="fas fa-play"></i></button>
         <button className="btn btn-sm changeValue" onClick={addHandler}><i className="fas fa-plus"></i></button>
       </div>
-
       <div className="button-container">
         <button className=" btn changeValue" onClick={salt}>Salt</button>
         <button className="btn changeValue" onClick={reset}>Reset</button>

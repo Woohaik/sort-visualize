@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import Bar from "./components/Bar";
 import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
+import { Bars, Steps } from './types';
 import { bubbleSort } from './utils/bubbleSort';
 import { getRandomInt } from './utils/getRandomInt';
 import { insertionSort } from './utils/insertionSort';
 import { selectionSort } from './utils/selectionSort';
+const barArrar: Bars = [
+  {
+    id: 0,
+    color: "#0056ad",
+    height: getRandomInt(20, 300),
+    left: 100,
+  },
+  {
+    id: 1,
+    color: "#0056ad",
+    height: getRandomInt(20, 300),
+    left: 100,
+  },
+  {
+    id: 2,
+    color: "#0056ad",
+    height: getRandomInt(20, 300),
+    left: 100,
+  },
+  {
+    id: 3,
+    color: "#0056ad",
+    height: getRandomInt(20, 300),
+    left: 100,
+  },
+];
 
 const App = () => {
-  const barArrar = [
-    {
-      id: 0,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-    {
-      id: 1,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-    {
-      id: 2,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-    {
-      id: 3,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-  ];
-
-  const [bars, setBars] = useState(barArrar);
+  const [bars, setBars] = useState<Bars>(barArrar);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
+  const [loadingPorcentage, setLoadingPorcentage] = useState<number>(0);
 
   const calculatePos = () => {
     setBars(bars.map((barObject, index) => {
@@ -45,7 +47,7 @@ const App = () => {
   }
 
   const reset = () => {
-    let newBars = bars.map((barObject) => {
+    let newBars: Bars = bars.map((barObject) => {
       barObject.color = "#0056ad";
       return barObject;
     })
@@ -59,7 +61,7 @@ const App = () => {
 
   const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
 
-  const addHandler = () => {
+  const addHandler = (): void => {
     if (bars.length < MAX_BAR_QUANTITY) {
       bars.push({
         id: bars.length,
@@ -73,7 +75,7 @@ const App = () => {
   };
 
 
-  const dropHandler = () => {
+  const dropHandler = (): void => {
     if (bars.length > MIN_BAR_QUANTITY) {
       bars.pop();
       setBars([...bars]);
@@ -99,7 +101,6 @@ const App = () => {
     })
   }
 
-
   const setGreen = async (id: number, id2: number, id3 = -1): Promise<void> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -119,11 +120,8 @@ const App = () => {
     });
   }
 
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
 
-  const [loadingPorcentage, setLoadingPorcentage] = useState(0);
-
-  const doSort = () => {
+  const doSort = (): Steps => {
     if (selectedAlgorithm === "bubble") {
       return bubbleSort(bars);
     } else if (selectedAlgorithm === "selection") {
@@ -134,7 +132,7 @@ const App = () => {
   };
 
   const startSort = async () => {
-    const steps = doSort();
+    const steps: Steps = doSort();
     const totalSteps = steps.length;
     let stepPassed = 0;
     for (let index = 0; index < steps.length; index++) {
@@ -161,6 +159,7 @@ const App = () => {
           Insertion Sort
         </div>
       </nav>
+
       <div className="wrapper ">
         <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
           {
@@ -174,6 +173,7 @@ const App = () => {
           }
         </div>
       </div>
+
       <div className="loading-bar">
         <div className="loading-bar-progress" style={{ width: `${loadingPorcentage}%` }}></div>
       </div>

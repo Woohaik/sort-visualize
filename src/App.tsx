@@ -1,43 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import Bar from "./components/Bar";
-import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
+import OrderCanvas from "./components/OrderCanvas";
+import Navbar from "./components/Navbar";
+import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from './constants';
 import { Bars, Steps } from './types';
 import { bubbleSort } from './utils/bubbleSort';
 import { getRandomInt } from './utils/getRandomInt';
 import { insertionSort } from './utils/insertionSort';
 import { selectionSort } from './utils/selectionSort';
-const barArrar: Bars = [
-  {
-    id: 0,
-    color: "#0056ad",
-    height: getRandomInt(20, 300),
-    left: 100,
-  },
-  {
-    id: 1,
-    color: "#0056ad",
-    height: getRandomInt(20, 300),
-    left: 100,
-  },
-  {
-    id: 2,
-    color: "#0056ad",
-    height: getRandomInt(20, 300),
-    left: 100,
-  },
-  {
-    id: 3,
-    color: "#0056ad",
-    height: getRandomInt(20, 300),
-    left: 100,
-  },
-];
+import LoadingBar from "./components/LoadingBar";
 
 const App = () => {
-  const [bars, setBars] = useState<Bars>(barArrar);
+  const [bars, setBars] = useState<Bars>(INITIAL_BAR_ARR);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
   const [loadingPorcentage, setLoadingPorcentage] = useState<number>(0);
-
   const calculatePos = () => {
     setBars(bars.map((barObject, index) => {
       barObject.id = index;
@@ -54,13 +29,12 @@ const App = () => {
     setBars(newBars);
     calculatePos();
   }
+
   useEffect(() => {
     calculatePos();
   }, []);
 
-
   const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
-
   const addHandler = (): void => {
     if (bars.length < MAX_BAR_QUANTITY) {
       bars.push({
@@ -83,7 +57,6 @@ const App = () => {
     }
   };
 
-  const widthOfContent = () => (bars.length * barWidth) + (bars.length - 1) * 10;
 
   const changePost = (id1: number, id2: number): Promise<void> => {
     return new Promise((resolve) => {
@@ -145,38 +118,11 @@ const App = () => {
     }
   };
 
-
   return (
     <div className="app">
-      <nav className="navbar">
-        <div onClick={() => setSelectedAlgorithm("bubble")} className={`navbar__item  ${selectedAlgorithm === "bubble" ? "selected" : ""}`}>
-          Bubble Sort
-        </div>
-        <div onClick={() => setSelectedAlgorithm("selection")} className={`navbar__item  ${selectedAlgorithm === "selection" ? "selected" : ""}`}>
-          Selection Sort
-        </div>
-        <div onClick={() => setSelectedAlgorithm("insertion")} className={`navbar__item  ${selectedAlgorithm === "insertion" ? "selected" : ""}`}>
-          Insertion Sort
-        </div>
-      </nav>
-
-      <div className="wrapper ">
-        <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
-          {
-            bars.map((barObject, index) => {
-              const size = {
-                height: barObject.height,
-                width: barWidth
-              }
-              return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />
-            })
-          }
-        </div>
-      </div>
-
-      <div className="loading-bar">
-        <div className="loading-bar-progress" style={{ width: `${loadingPorcentage}%` }}></div>
-      </div>
+      <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
+      <OrderCanvas bars={bars} />
+      <LoadingBar loadingPorcentage={loadingPorcentage} />
       <div className="button-container">
         <button className="btn btn-sm changeValue" onClick={dropHandler}><i className="fas fa-minus"></i></button>
         <button className="btn btn-sm changeValue" onClick={startSort}>     <i className="fas fa-play"></i></button>

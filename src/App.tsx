@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { changePost, setGreen } from './utils/animations';
-import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from './constants';
-import { Bars, Steps } from './types';
-import { getRandomInt } from './utils/getRandomInt';
-import { insertionSort, bubbleSort, selectionSort } from './utils';
+import React, { useState, useEffect } from "react";
+import { changePost, setGreen } from "./utils/animations";
+import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from "./constants";
+import { Bars, Steps } from "./types";
+import { getRandomInt } from "./utils/getRandomInt";
+import { insertionSort, bubbleSort, selectionSort } from "./utils";
 
 // Components
 import LoadingBar from "./components/LoadingBar";
@@ -24,19 +24,19 @@ const App = () => {
       barObject.id = index;
       barObject.left = (index * 45);
       return barObject;
-    }))
-  }
+    }));
+  };
 
   useEffect(() => { calculatePos(); }, []);
 
   const reset = () => {
-    let newBars: Bars = bars.map((barObject) => {
+    const newBars: Bars = bars.map((barObject) => {
       barObject.color = "#0056ad";
       return barObject;
-    })
+    });
     setBars(newBars);
     calculatePos();
-  }
+  };
 
   const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
 
@@ -48,7 +48,7 @@ const App = () => {
         height: getRandomInt(20, 300),
         left: 0
       });
-      setBars([...bars])
+      setBars([...bars]);
       calculatePos();
     }
   };
@@ -73,7 +73,7 @@ const App = () => {
     for (let index = 0; index < steps.length; index++) {
       await setGreen(steps[index].first.id1, steps[index].first.id2, bars, setBars); // LAs que compara
       if (steps[index].second) {
-        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0, bars, setBars) // Las que intercambiara
+        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0, bars, setBars); // Las que intercambiara
       }
       stepPassed++;
       setLoadingPorcentage((stepPassed / totalSteps) * 100);
@@ -94,6 +94,6 @@ const App = () => {
       <LoadingBar loadingPorcentage={loadingPorcentage} />
       <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
     </div>
-  )
-}
+  );
+};
 export default App;

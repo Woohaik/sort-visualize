@@ -1,9 +1,9 @@
 import { IBarMeta, IStepPart, Steps } from "../../types";
 
 export const selectionSort = (toShort: IBarMeta[]): Steps => {
-    let stepArray: Steps = [];
+    const stepArray: Steps = [];
     const newArray = [...toShort];
-    let arrLength = newArray.length;
+    const arrLength = newArray.length;
     for (let index = 0; index < arrLength; index++) {
         let smallItemIndex = index;
         for (let j = index + 1; j < arrLength; j++) {
@@ -18,10 +18,9 @@ export const selectionSort = (toShort: IBarMeta[]): Steps => {
 
         let secondStep: IStepPart | null = { id1: newArray[index].id, id2: newArray[smallItemIndex].id };
 
-
         if (smallItemIndex !== index) { // Comparacion
             // Swapp
-            let tmp = newArray[index];
+            const tmp = newArray[index];
             newArray[index] = newArray[smallItemIndex];
             newArray[smallItemIndex] = tmp;
         } else {
@@ -31,4 +30,4 @@ export const selectionSort = (toShort: IBarMeta[]): Steps => {
 
     }
     return stepArray;
-}
+};

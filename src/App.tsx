@@ -1,39 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import Bar from "./components/Bar";
-import { barWidth, CANVAS_SIZE, MAX_BAR_QUANTITY, MIN_BAR_QUANTITY } from './constants';
-import { bubbleSort } from './utils/bubbleSort';
+import { changePost, setGreen } from './utils/animations';
+import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from './constants';
+import { Bars, Steps } from './types';
 import { getRandomInt } from './utils/getRandomInt';
-import { selectionSort } from './utils/selectionSort';
+import { insertionSort, bubbleSort, selectionSort } from './utils';
+
+// Components
+import LoadingBar from "./components/LoadingBar";
+import OrderCanvas from "./components/OrderCanvas";
+import Navbar from "./components/Navbar";
+import UserOptions from "./components/UserOptions";
+import InputRange from "react-input-range";
 
 const App = () => {
-  const barArrar = [
-    {
-      id: 0,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-    {
-      id: 1,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-    {
-      id: 2,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-    {
-      id: 3,
-      color: "#0056ad",
-      height: getRandomInt(20, 300),
-      left: 100,
-    },
-  ];
-
-  const [bars, setBars] = useState(barArrar);
+  const [bars, setBars] = useState<Bars>(INITIAL_BAR_ARR);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
+  const [loadingPorcentage, setLoadingPorcentage] = useState<number>(0);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [animationInterval, setAnimationIntervar] = useState({ value: 500 });
 
   const calculatePos = () => {
     setBars(bars.map((barObject, index) => {
@@ -43,22 +27,20 @@ const App = () => {
     }))
   }
 
+  useEffect(() => { calculatePos(); }, []);
+
   const reset = () => {
-    let newBars = bars.map((barObject) => {
+    let newBars: Bars = bars.map((barObject) => {
       barObject.color = "#0056ad";
       return barObject;
     })
     setBars(newBars);
     calculatePos();
   }
-  useEffect(() => {
-    calculatePos();
-  }, []);
-
 
   const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
 
-  const addHandler = () => {
+  const addHandler = (): void => {
     if (bars.length < MAX_BAR_QUANTITY) {
       bars.push({
         id: bars.length,
@@ -69,146 +51,48 @@ const App = () => {
       setBars([...bars])
       calculatePos();
     }
-  }
+  };
 
+  const dropHandler = (): void => { if (bars.length > MIN_BAR_QUANTITY) { bars.pop(); setBars([...bars]); calculatePos(); } };
 
-  const dropHandler = () => {
-    if (bars.length > MIN_BAR_QUANTITY) {
-      bars.pop();
-      setBars([...bars]);
-      calculatePos();
-    }
-  }
-
-  const widthOfContent = () => (bars.length * barWidth) + (bars.length - 1) * 10;
-
-  const changePost = (id1: number, id2: number): Promise<void> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        let newArray = [...bars];
-        const firstLeft = newArray.find(bar => bar.id === id1)?.left;
-        const lastLeft = newArray.find(bar => bar.id === id2)?.left;
-        const l1 = newArray.find(bar => bar.id === id1);
-        const l2 = newArray.find(bar => bar.id === id2);
-        if (l1 !== undefined) l1.left = lastLeft || -1;
-        if (l2 !== undefined) l2.left = firstLeft || -1;
-        setBars(newArray);
-        resolve();
-      }, 500)
-    })
-  }
-
-
-  const setGreen = async (id: number, id2: number): Promise<void> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        let newBars = bars.map((barObject) => {
-          barObject.color = "#0056ad";
-          return barObject;
-        })
-        let BarToGreen = newBars.find(bar => bar.id === id);
-        let BarToGreen2 = newBars.find(bar => bar.id === id2);
-
-        if (BarToGreen !== undefined) BarToGreen.color = "#7da542";
-        if (BarToGreen2 !== undefined) BarToGreen2.color = "#7da542";
-
-        setBars(newBars);
-        resolve();
-      }, 500)
-    });
-  }
-
-
-
-
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
-
-
-  const [loadingPorcentage, setLoadingPorcentage] = useState(0);
-
-  const doSort = () => {
+  const doSort = (): Steps => {
+    setLoadingPorcentage(0);
     if (selectedAlgorithm === "bubble") {
       return bubbleSort(bars);
     } else if (selectedAlgorithm === "selection") {
       return selectionSort(bars);
     } else {
-      return selectionSort(bars);
+      return insertionSort(bars);
     }
-
-  }
-
-
-
+  };
 
   const startSort = async () => {
-    // let steps = 
-
-    let steps = doSort();
-
-
-
+    const steps: Steps = doSort();
     const totalSteps = steps.length;
-
-
-
-
-
     let stepPassed = 0;
     for (let index = 0; index < steps.length; index++) {
-
-      await setGreen(steps[index].first.id1, steps[index].first.id2); // LAs que compara
-
+      await setGreen(steps[index].first.id1, steps[index].first.id2, bars, setBars); // LAs que compara
       if (steps[index].second) {
-        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0) // Las que intercambiara
-
+        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0, bars, setBars) // Las que intercambiara
       }
-      stepPassed++
+      stepPassed++;
       setLoadingPorcentage((stepPassed / totalSteps) * 100);
-
     }
-  }
-
-
+  };
   return (
     <div className="app">
-      <nav className="navbar">
-        <div onClick={() => setSelectedAlgorithm("bubble")} className={`navbar__item  ${selectedAlgorithm === "bubble" ? "selected" : ""}`}>
-          Bubble Sort
-        </div>
-        <div onClick={() => setSelectedAlgorithm("selection")} className={`navbar__item  ${selectedAlgorithm === "selection" ? "selected" : ""}`}>
-          Selection Sort
-        </div>
-        <div onClick={() => setSelectedAlgorithm("mangeno")} className={`navbar__item  ${selectedAlgorithm === "mangeno" ? "selected" : ""}`}>
-          Mangeño Sort
-        </div>
-      </nav>
-      <div className="wrapper ">
-        <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
-          {
-            bars.map((barObject, index) => {
-              const size = {
-                height: barObject.height,
-                width: barWidth
-              }
-              return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />
-            })
-          }
-        </div>
-      </div>
+      <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
+      <InputRange
+        step={50}
+        maxValue={500}
+        minValue={50}
+        value={animationInterval.value}
+        onChange={(value) => setAnimationIntervar({ value: + value })}
 
-      <div className="loading-bar">
-        <div className="loading-bar-progress" style={{ width: `${loadingPorcentage}%` }}></div>
-      </div>
-      <div className="button-container">
-        <button className="btn btn-sm changeValue" onClick={dropHandler}><i className="fas fa-minus"></i></button>
-        <button className="btn btn-sm changeValue" onClick={startSort}>     <i className="fas fa-play"></i></button>
-        <button className="btn btn-sm changeValue" onClick={addHandler}><i className="fas fa-plus"></i></button>
-      </div>
-
-      <div className="button-container">
-        <button className=" btn changeValue" onClick={salt}>Salt</button>
-        <button className="btn changeValue" onClick={reset}>Reset</button>
-      </div>
+      />
+      <OrderCanvas bars={bars} />
+      <LoadingBar loadingPorcentage={loadingPorcentage} />
+      <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
     </div>
   )
 }

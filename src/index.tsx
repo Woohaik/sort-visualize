@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome'
 import '@fortawesome/fontawesome-free-solid'
 import "./assets/style.scss";
 
-
+import "react-input-range/lib/css/index.css";
 
 
 ReactDOM.render(

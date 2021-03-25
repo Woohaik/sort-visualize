@@ -4,16 +4,20 @@ import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from './constants
 import { Bars, Steps } from './types';
 import { getRandomInt } from './utils/getRandomInt';
 import { insertionSort, bubbleSort, selectionSort } from './utils';
+
 // Components
 import LoadingBar from "./components/LoadingBar";
 import OrderCanvas from "./components/OrderCanvas";
 import Navbar from "./components/Navbar";
 import UserOptions from "./components/UserOptions";
+import InputRange from "react-input-range";
 
 const App = () => {
   const [bars, setBars] = useState<Bars>(INITIAL_BAR_ARR);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
   const [loadingPorcentage, setLoadingPorcentage] = useState<number>(0);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [animationInterval, setAnimationIntervar] = useState({ value: 500 });
 
   const calculatePos = () => {
     setBars(bars.map((barObject, index) => {
@@ -78,9 +82,17 @@ const App = () => {
   return (
     <div className="app">
       <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
+      <InputRange
+        step={50}
+        maxValue={500}
+        minValue={50}
+        value={animationInterval.value}
+        onChange={(value) => setAnimationIntervar({ value: + value })}
+
+      />
       <OrderCanvas bars={bars} />
       <LoadingBar loadingPorcentage={loadingPorcentage} />
-      <UserOptions startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
+      <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
     </div>
   )
 }

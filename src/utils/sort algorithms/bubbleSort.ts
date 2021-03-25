@@ -1,4 +1,4 @@
-import { IBarMeta, IStepPart, Steps } from '../types';
+import { IBarMeta, IStepPart, Steps } from '../../types';
 
 export const bubbleSort = (toSortArr: IBarMeta[]): Steps => {
     let newArray = [...toSortArr];

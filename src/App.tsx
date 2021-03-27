@@ -4,6 +4,7 @@ import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from "./constants
 import { Bars, Steps } from "./types";
 import { getRandomInt } from "./utils/getRandomInt";
 import { insertionSort, bubbleSort, selectionSort } from "./utils";
+import gitHubLogo from "./assets/github.png";
 
 // Components
 import LoadingBar from "./components/LoadingBar";
@@ -125,6 +126,12 @@ const App = () => {
       <OrderCanvas interval={animationInterval.value} bars={bars} />
       <LoadingBar interval={animationInterval.value} loadingPorcentage={loadingPorcentage} />
       <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
+
+      <a className="repo" href="https://github.com/Woohaik">
+
+        <img src={gitHubLogo} alt="this is car image" />
+        Woohaik
+      </a>
     </div>
   );
 };

@@ -4,13 +4,12 @@ body {
 .app {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 25px auto;
 }
 
 .bar {
     position: absolute;
     bottom: 25px;
-
 }
 
 .wrapper {
@@ -129,4 +128,26 @@ input {
 .input-range {
     width: 45% !important;
     margin: 25px auto;
+}
+
+.repo {
+    transition: all 0.5s;
+    cursor: pointer;
+    height: fit-content;
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    color: rgb(100, 100, 100);
+    margin-top: 50px !important;
+    img {
+        width: 40px;
+        height: auto;
+    }
+
+    &:hover {
+        transform: scale(1.04);
+    }
 }

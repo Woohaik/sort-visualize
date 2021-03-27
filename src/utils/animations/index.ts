@@ -1,6 +1,7 @@
 import { Bars } from "../../types";
 
-export const changePost = (id1: number, id2: number, theBars: Bars, updateBars: (value: React.SetStateAction<Bars>) => void): Promise<void> => {
+export const changePost = (id1: number, id2: number, theBars: Bars, updateBars: (value: React.SetStateAction<Bars>) => void, interval: number): Promise<void> => {
+    console.log(interval);
     return new Promise((resolve) => {
         setTimeout(() => {
             const newArray = [...theBars];
@@ -12,11 +13,11 @@ export const changePost = (id1: number, id2: number, theBars: Bars, updateBars: 
             if (l2 !== undefined) l2.left = firstLeft || -1;
             updateBars(newArray);
             resolve();
-        }, 500);
+        }, interval);
     });
 };
 
-export const setGreen = async (id: number, id2: number, theBars: Bars, updateBars: (value: React.SetStateAction<Bars>) => void): Promise<void> => {
+export const setGreen = async (id: number, id2: number, theBars: Bars, updateBars: (value: React.SetStateAction<Bars>) => void, interval: number): Promise<void> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             const newBars = theBars.map((barObject) => {
@@ -29,6 +30,6 @@ export const setGreen = async (id: number, id2: number, theBars: Bars, updateBar
             if (BarToGreen2 !== undefined) BarToGreen2.color = "#7da542";
             updateBars(newBars);
             resolve();
-        }, 500);
+        }, interval);
     });
 };

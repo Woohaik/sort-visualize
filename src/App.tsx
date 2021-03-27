@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { changePost, setGreen } from "./utils/animations";
 import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from "./constants";
 import { Bars, Steps } from "./types";
@@ -18,6 +18,8 @@ const App = () => {
   const [loadingPorcentage, setLoadingPorcentage] = useState<number>(0);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [animationInterval, setAnimationIntervar] = useState({ value: 500 });
+  const animationIntervalRef = useRef(500);
+
 
   const calculatePos = () => {
     setBars(bars.map((barObject, index) => {
@@ -66,32 +68,62 @@ const App = () => {
     }
   };
 
+  const callAnimation = async (type: string, id1: number, id2: number) => {
+    if (type === "green") {
+      await setGreen(id1, id2, bars, setBars, animationIntervalRef.current); // LAs que compara
+    } else {
+      console.log("f");
+      await changePost(id1, id2, bars, setBars, animationIntervalRef.current); // Las que intercambiara
+    }
+  };
+
+
+  const sortedFinished = () => {
+    const newBars = bars.map((barObject) => {
+      barObject.color = "#a02bc6";
+      return barObject;
+    });
+    setBars(newBars);
+  };
+
   const startSort = async () => {
+    reset();
+    setIsAnimating(true);
     const steps: Steps = doSort();
     const totalSteps = steps.length;
     let stepPassed = 0;
-    for (let index = 0; index < steps.length; index++) {
-      await setGreen(steps[index].first.id1, steps[index].first.id2, bars, setBars); // LAs que compara
+    for (let index = 0; index < steps.length;) {
+
+      await callAnimation("green", steps[index].first.id1, steps[index].first.id2);
+
       if (steps[index].second) {
-        await changePost(steps[index].second?.id1 || 0, steps[index].second?.id2 || 0, bars, setBars); // Las que intercambiara
+        await callAnimation("", steps[index].second?.id1 || 0, steps[index].second?.id2 || 0);
+
       }
       stepPassed++;
       setLoadingPorcentage((stepPassed / totalSteps) * 100);
+      index++;
     }
+    sortedFinished();
+    setIsAnimating(false);
   };
   return (
     <div className="app">
       <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
+
       <InputRange
         step={50}
         maxValue={500}
-        minValue={50}
+        minValue={100}
         value={animationInterval.value}
-        onChange={(value) => setAnimationIntervar({ value: + value })}
-
+        onChange={(value) => {
+          animationIntervalRef.current = +value;
+          setAnimationIntervar({ value: + value });
+        }}
       />
-      <OrderCanvas bars={bars} />
-      <LoadingBar loadingPorcentage={loadingPorcentage} />
+
+      <OrderCanvas interval={animationInterval.value} bars={bars} />
+      <LoadingBar interval={animationInterval.value} loadingPorcentage={loadingPorcentage} />
       <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
     </div>
   );

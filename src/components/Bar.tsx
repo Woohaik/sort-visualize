@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 interface Props {
     left: number | string;
@@ -10,11 +10,11 @@ interface Props {
     class: string;
 }
 
-const Bar = (props: Props) => {
-    return (
-        <div className={`bar ${props.class} `} style={{ background: props.color, left: props.left, width: props.size.width, height: props.size.height }}>
-        </div>
-    )
-}
+const Bar = (props: Props) =>
+(
+    <div className={`bar ${props.class} `} style={{ background: props.color, left: props.left, width: props.size.width, height: props.size.height }}>
+    </div>
+);
 
-export default Bar
+
+export default Bar;

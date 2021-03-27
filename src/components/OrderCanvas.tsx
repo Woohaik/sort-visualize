@@ -1,8 +1,6 @@
-
 import { barWidth, CANVAS_SIZE } from "../constants";
 import { Bars } from "../types";
-
-import Bar from './Bar';
+import Bar from "./Bar";
 
 interface Props {
     bars: Bars;
@@ -17,14 +15,13 @@ const OrderCanvas = (props: Props) => {
                     const size = {
                         height: barObject.height,
                         width: barWidth
-                    }
-                    return <Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />
+                    };
+                    return (<Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />);
                 })
             }
         </div>
-    </div>)
-
-}
+    </div>);
+};
 
 
 export default OrderCanvas;

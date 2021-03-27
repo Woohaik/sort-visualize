@@ -4,6 +4,7 @@ import Bar from "./Bar";
 
 interface Props {
     bars: Bars;
+    interval: number;
 }
 
 const OrderCanvas = (props: Props) => {
@@ -16,7 +17,7 @@ const OrderCanvas = (props: Props) => {
                         height: barObject.height,
                         width: barWidth
                     };
-                    return (<Bar class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />);
+                    return (<Bar interval={props.interval} class={index > 3 ? "ease-in" : ""} key={index} left={barObject.left} size={size} color={barObject.color} />);
                 })
             }
         </div>

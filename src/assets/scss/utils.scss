@@ -1,0 +1,44 @@
+
+input {
+    margin-top: 25px;
+}
+
+.btn {
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 35px;
+    background: rgb(204, 201, 201);
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid rgb(168, 168, 168);
+    &-sm {
+        width: 60px;
+    }
+
+    &:hover {
+        background: rgb(180, 180, 180);
+        border: 2px solid rgb(150, 150, 150);
+    }
+}
+
+
+.ease-in {
+    animation-name: anim;
+    animation-duration: 0.5s;
+}
+
+.drop {
+    height: 1px !important;
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    height: 450px;
+}

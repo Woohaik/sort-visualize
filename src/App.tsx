@@ -126,9 +126,8 @@ const App = () => {
       <OrderCanvas interval={animationInterval.value} bars={bars} />
       <LoadingBar interval={animationInterval.value} loadingPorcentage={loadingPorcentage} />
       <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
-
+      
       <a className="repo" href="https://github.com/Woohaik">
-
         <img src={gitHubLogo} alt="this is car image" />
         Woohaik
       </a>

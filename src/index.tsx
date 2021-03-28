@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "@fortawesome/fontawesome";
 import "@fortawesome/fontawesome-free-solid";
-import "./assets/style.scss";
+import "./assets/scss/style.scss";
 
 import "react-input-range/lib/css/index.css";
 

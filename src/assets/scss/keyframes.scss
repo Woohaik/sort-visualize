@@ -1,0 +1,14 @@
+@keyframes anim {
+    from {
+        bottom: 50%;
+        opacity: 0;
+        transform: scaleY(0);
+        transform: skewX(-18deg);
+    }
+    to {
+        opacity: 1;
+        bottom: 25px;
+        transform: scaleY(1);
+        transform: skewX(0deg);
+    }
+}

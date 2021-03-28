@@ -39,6 +39,7 @@ const App = () => {
     });
     setBars(newBars);
     calculatePos();
+    setLoadingPorcentage(0);
   };
 
   const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
@@ -52,11 +53,11 @@ const App = () => {
         left: 0
       });
       setBars([...bars]);
-      calculatePos();
+      reset();
     }
   };
 
-  const dropHandler = (): void => { if (bars.length > MIN_BAR_QUANTITY) { bars.pop(); setBars([...bars]); calculatePos(); } };
+  const dropHandler = (): void => { if (bars.length > MIN_BAR_QUANTITY) { bars.pop(); setBars([...bars]); reset(); } };
 
   const doSort = (): Steps => {
     setLoadingPorcentage(0);
@@ -110,9 +111,13 @@ const App = () => {
   };
   return (
     <div className="app">
-      <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
 
+      <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
+      <div className="delay-title text-center">
+        Delay (ms):
+      </div>
       <InputRange
+
         step={50}
         maxValue={500}
         minValue={100}
@@ -122,15 +127,21 @@ const App = () => {
           setAnimationIntervar({ value: + value });
         }}
       />
+      <h1 className="text-center">Visualizing Sort Algorithms</h1>
 
       <OrderCanvas interval={animationInterval.value} bars={bars} />
       <LoadingBar interval={animationInterval.value} loadingPorcentage={loadingPorcentage} />
       <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />
-      
       <a className="repo" href="https://github.com/Woohaik">
         <img src={gitHubLogo} alt="this is car image" />
-        Woohaik
+        <div>
+          Woohaik
+          <div className="fs-12 fc-transparent">
+            Wilfredo Hernández
+          </div>
+        </div>
       </a>
+
     </div>
   );
 };

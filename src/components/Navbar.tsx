@@ -1,22 +1,22 @@
 interface Props {
     setSelectedAlgorithm: (al: string) => void;
     selectedAlgorithm: string;
+    isAnimating: boolean;
 }
 
 const Navbar = (props: Props) =>
 (
     <nav className="navbar">
-        <div onClick={() => props.setSelectedAlgorithm("bubble")} className={`navbar__item  ${props.selectedAlgorithm === "bubble" ? "selected" : ""}`}>
+        <div style={{ opacity: props.isAnimating ? 0.2 : 1 }} onClick={() => !props.isAnimating && props.setSelectedAlgorithm("bubble")} className={`navbar__item  ${props.selectedAlgorithm === "bubble" ? "selected" : ""}`}>
             Bubble Sort
         </div>
-        <div onClick={() => props.setSelectedAlgorithm("selection")} className={`navbar__item  ${props.selectedAlgorithm === "selection" ? "selected" : ""}`}>
+        <div style={{ opacity: props.isAnimating ? 0.2 : 1 }} onClick={() => !props.isAnimating && props.setSelectedAlgorithm("selection")} className={`navbar__item  ${props.selectedAlgorithm === "selection" ? "selected" : ""}`}>
             Selection Sort
         </div>
-        <div onClick={() => props.setSelectedAlgorithm("insertion")} className={`navbar__item  ${props.selectedAlgorithm === "insertion" ? "selected" : ""}`}>
+        <div style={{ opacity: props.isAnimating ? 0.2 : 1 }} onClick={() => !props.isAnimating && props.setSelectedAlgorithm("insertion")} className={`navbar__item  ${props.selectedAlgorithm === "insertion" ? "selected" : ""}`}>
             Insertion Sort
         </div>
-    </nav>
+    </nav >
 );
-
 
 export default Navbar;

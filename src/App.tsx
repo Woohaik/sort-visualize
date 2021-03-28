@@ -112,12 +112,11 @@ const App = () => {
   return (
     <div className="app">
 
-      <Navbar selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
+      <Navbar isAnimating={isAnimating} selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={setSelectedAlgorithm} />
       <div className="delay-title text-center">
-        Delay (ms):
+        Delay (ms): {animationIntervalRef.current}
       </div>
       <InputRange
-
         step={50}
         maxValue={500}
         minValue={100}
@@ -128,7 +127,6 @@ const App = () => {
         }}
       />
       <h1 className="text-center">Visualizing Sort Algorithms</h1>
-
       <OrderCanvas interval={animationInterval.value} bars={bars} />
       <LoadingBar interval={animationInterval.value} loadingPorcentage={loadingPorcentage} />
       <UserOptions isAnimating={isAnimating} startSort={startSort} salt={salt} reset={reset} addHandler={addHandler} dropHandler={dropHandler} />

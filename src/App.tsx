@@ -44,7 +44,10 @@ const App = () => {
     setLoadingPorcentage(0);
   };
 
-  const salt = () => setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
+  const salt = () => {
+    reset();
+    setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
+  }
 
   const addHandler = (): void => {
     if (bars.length < MAX_BAR_QUANTITY) {
@@ -165,7 +168,7 @@ const App = () => {
         </div>
       </a>
     </div>
-    
+
   );
 };
 export default App;

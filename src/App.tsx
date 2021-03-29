@@ -47,7 +47,7 @@ const App = () => {
   const salt = () => {
     reset();
     setBars(barsObjects => barsObjects.map(barObject => ({ ...barObject, height: getRandomInt(20, 300) })));
-  }
+  };
 
   const addHandler = (): void => {
     if (bars.length < MAX_BAR_QUANTITY) {

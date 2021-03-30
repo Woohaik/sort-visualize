@@ -4,7 +4,7 @@ interface Props {
     isAnimating: boolean;
 }
 
-const Navbar = (props: Props) =>
+const Navbar = (props: Props): JSX.Element =>
 (
     <nav className="navbar">
         <div style={{ opacity: props.isAnimating ? 0.2 : 1 }} onClick={() => !props.isAnimating && props.setSelectedAlgorithm("bubble")} className={`navbar__item  ${props.selectedAlgorithm === "bubble" ? "selected" : ""}`}>

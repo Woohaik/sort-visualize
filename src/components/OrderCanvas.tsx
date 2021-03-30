@@ -1,4 +1,4 @@
-import { barWidth, CANVAS_SIZE } from "../constants";
+import { barWidth } from "../constants";
 import { Bars } from "../types";
 import Bar from "./Bar";
 
@@ -7,10 +7,12 @@ interface Props {
     interval: number;
 }
 
-const OrderCanvas = (props: Props) => {
+const OrderCanvas = (props: Props): JSX.Element => {
+
     const widthOfContent = () => (props.bars.length * barWidth) + (props.bars.length - 1) * 10;
+
     return (<div className="wrapper ">
-        <div className="order-content" style={{ left: (CANVAS_SIZE - widthOfContent()) / 2, width: widthOfContent() }}>
+        <div className="order-content" style={{ left: `calc(50% - ${widthOfContent() / 2}px)`, width: widthOfContent() }}>
             {
                 props.bars.map((barObject, index) => {
                     const size = {

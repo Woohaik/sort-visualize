@@ -1,4 +1,3 @@
-
 interface Props {
     dropHandler: () => void;
     startSort: () => void;
@@ -12,7 +11,7 @@ interface Props {
     stopSort: () => void;
 }
 
-const UserOptions = (pros: Props) =>
+const UserOptions = (pros: Props): JSX.Element =>
 (
     <>
         <div className="button-container">
@@ -29,7 +28,5 @@ const UserOptions = (pros: Props) =>
         </div>
     </>
 );
-
-
 
 export default UserOptions;

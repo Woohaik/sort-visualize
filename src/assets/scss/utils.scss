@@ -3,6 +3,7 @@ input {
 }
 
 .btn {
+    font-size: 0.85em;
     font-weight: 600;
     cursor: pointer;
     display: flex;
@@ -14,6 +15,7 @@ input {
     border-radius: 20px;
     outline: none;
     border: 2px solid rgb(168, 168, 168);
+
     &-sm {
         width: 60px;
     }
@@ -22,6 +24,7 @@ input {
         background: rgb(180, 180, 180);
         border: 2px solid rgb(150, 150, 150);
     }
+    
 }
 
 .ease-in {
@@ -37,10 +40,18 @@ input {
     position: relative;
     width: 100%;
     height: 375px;
+
+    @include breakpoint(md) {
+        transform: scale(0.80);
+    }
+
+    @include breakpoint(sm) {
+        transform: scale(0.65);
+    }
 }
 
 .fs-12 {
-    font-size: 12px;
+    font-size: 1em;
 }
 
 .fc-transparent {

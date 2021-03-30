@@ -13,7 +13,7 @@ import Navbar from "./components/Navbar";
 import UserOptions from "./components/UserOptions";
 import InputRange from "react-input-range";
 
-const App = () => {
+const App = (): JSX.Element => {
   const [bars, setBars] = useState<Bars>(INITIAL_BAR_ARR);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
   const [loadingPorcentage, setLoadingPorcentage] = useState<number>(0);

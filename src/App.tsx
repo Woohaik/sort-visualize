@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { changePost, setGreen } from "./utils/animations";
-import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR } from "./constants";
+import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR, BLUE_COLOR } from "./constants";
 import { Bars, Steps } from "./types";
 import { getRandomInt } from "./utils/getRandomInt";
 import { insertionSort, bubbleSort, selectionSort } from "./utils";
@@ -36,7 +36,7 @@ const App = (): JSX.Element => {
 
   const reset = () => {
     const newBars: Bars = bars.map((barObject) => {
-      barObject.color = "#0056ad";
+      barObject.color = BLUE_COLOR;
       return barObject;
     });
     setBars(newBars);
@@ -53,7 +53,7 @@ const App = (): JSX.Element => {
     if (bars.length < MAX_BAR_QUANTITY) {
       bars.push({
         id: bars.length,
-        color: "#0056ad",
+        color: BLUE_COLOR,
         height: getRandomInt(20, 300),
         left: 0
       });

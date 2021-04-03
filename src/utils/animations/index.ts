@@ -1,3 +1,4 @@
+import { BLUE_COLOR, GREEN_COLOR } from "../../constants";
 import { Bars } from "../../types";
 
 export const changePost = (id1: number, id2: number, theBars: Bars, updateBars: (value: React.SetStateAction<Bars>) => void, interval: number): Promise<void> => {
@@ -21,13 +22,13 @@ export const setGreen = async (id: number, id2: number, theBars: Bars, updateBar
     return new Promise((resolve) => {
         setTimeout(() => {
             const newBars = theBars.map((barObject) => {
-                barObject.color = "#0056ad";
+                barObject.color = BLUE_COLOR;
                 return barObject;
             });
             const BarToGreen = newBars.find(bar => bar.id === id);
             const BarToGreen2 = newBars.find(bar => bar.id === id2);
-            if (BarToGreen !== undefined) BarToGreen.color = "#7da542";
-            if (BarToGreen2 !== undefined) BarToGreen2.color = "#7da542";
+            if (BarToGreen !== undefined) BarToGreen.color = GREEN_COLOR;
+            if (BarToGreen2 !== undefined) BarToGreen2.color = GREEN_COLOR;
             updateBars(newBars);
             resolve();
         }, interval);

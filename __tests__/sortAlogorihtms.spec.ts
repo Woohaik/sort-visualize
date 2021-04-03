@@ -1,34 +1,36 @@
 import { Bars } from "./../src/types";
 import { bubbleSort, insertionSort, selectionSort } from "./../src/utils";
+import { BLUE_COLOR } from "./../src/constants";
+
 describe("Sorting algorithm", () => {
     const toSortBars: Bars = [
         {
             id: 0,
-            color: "#0056ad",
+            color: BLUE_COLOR,
             height: 50,
             left: 100,
         },
         {
             id: 1,
-            color: "#0056ad",
+            color: BLUE_COLOR,
             height: 75,
             left: 100,
         },
         {
             id: 2,
-            color: "#0056ad",
+            color: BLUE_COLOR,
             height: 15,
             left: 100,
         },
         {
             id: 3,
-            color: "#0056ad",
+            color: BLUE_COLOR,
             height: 100,
             left: 100,
         },
         {
             id: 4,
-            color: "#0056ad",
+            color: BLUE_COLOR,
             height: 20,
             left: 100,
         },

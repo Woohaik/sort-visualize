@@ -6,7 +6,7 @@ const barWidth = 35;
 const MAX_BAR_QUANTITY = 20;
 const MIN_BAR_QUANTITY = 4;
 export const BLUE_COLOR = "#0056ad";
-export const GREEN_COLOR = "#7da542";
+export const GREEN_COLOR = "#86BE34";
 const INITIAL_BAR_ARR: Bars = [
     {
         id: 0,

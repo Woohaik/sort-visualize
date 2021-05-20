@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { changePost, setGreen } from "./utils/animations";
-import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR, BLUE_COLOR } from "./constants";
+import { MAX_BAR_QUANTITY, MIN_BAR_QUANTITY, INITIAL_BAR_ARR, BLUE_COLOR, GREEN_COLOR } from "./constants";
 import { Bars, Steps } from "./types";
 import { getRandomInt } from "./utils/getRandomInt";
 import { insertionSort, bubbleSort, selectionSort } from "./utils";
-import gitHubLogo from "./assets/github.png";
+import Social from "./components/Social";
 
 // Components
 import LoadingBar from "./components/LoadingBar";
@@ -85,7 +85,7 @@ const App = (): JSX.Element => {
 
   const sortedFinished = () => {
     const newBars = bars.map((barObject) => {
-      barObject.color = "#a02bc6";
+      barObject.color = GREEN_COLOR;
       return barObject;
     });
     setBars(newBars);
@@ -158,15 +158,10 @@ const App = (): JSX.Element => {
         isAnimating={isAnimating} startSort={startSort}
         salt={salt} reset={reset} addHandler={addHandler}
         dropHandler={dropHandler} />
-      <a className="repo" href="https://github.com/Woohaik">
-        <img src={gitHubLogo} alt="this is car image" />
-        <div>
-          Woohaik
-          <div className="fs-12 fc-transparent">
-            Wilfredo Hernández
-          </div>
-        </div>
-      </a>
+
+      <Social />
+
+
     </div>
 
   );

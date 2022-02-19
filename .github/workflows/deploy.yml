@@ -1,35 +1,39 @@
-  
 name: Deploy to S3
-
 on:
   pull_request:
-    branches: [master]
   push:
-    branches: [master]
-
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        
     steps:
-      - name: Build
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16.13.0
-      - run: npm ci
-      - run: npm run build
-
-      - name: Test
-      - run: npm test
-      
-      - name: Deploy
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: "build"
-      
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: |
+        npm install
+    - name: Production Build
+      run: |
+        npm run build
+    - name: Tests
+      run: |
+        npm run test
+    - name: Deploy to S3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --delete
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        SOURCE_DIR: "build"
